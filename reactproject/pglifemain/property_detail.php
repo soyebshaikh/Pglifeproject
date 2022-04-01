@@ -9,12 +9,12 @@ $sql_1 = "SELECT *, p.id AS property_id, p.name AS property_name, c.name AS city
             FROM properties p
             INNER JOIN cities c ON p.city_id = c.id 
             WHERE p.id = $property_id";
-$result_1 =pg_query($db, $sql_1);
+$result_1 = mysqli_query($conn, $sql_1);
 if (!$result_1) {
     echo "Something went wrong!";
     return;
 }
-$property =pg_fetch_assoc($result_1);
+$property = mysqli_fetch_assoc($result_1);
 if (!$property) {
     echo "Something went wrong!";
     return;
@@ -22,34 +22,34 @@ if (!$property) {
 
 
 $sql_2 = "SELECT * FROM testimonials WHERE property_id = $property_id";
-$result_2 =pg_query($db, $sql_2);
+$result_2 = mysqli_query($conn, $sql_2);
 if (!$result_2) {
     echo "Something went wrong!";
     return;
 }
-$testimonials =pg_fetch_all($result_2,PGSQL_ASSOC);
+$testimonials = mysqli_fetch_all($result_2, MYSQLI_ASSOC);
 
 
 $sql_3 = "SELECT a.* 
             FROM amenities a
             INNER JOIN properties_amenities pa ON a.id = pa.amenity_id
             WHERE pa.property_id = $property_id";
-$result_3 =pg_query($db, $sql_3);
+$result_3 = mysqli_query($conn, $sql_3);
 if (!$result_3) {
     echo "Something went wrong!";
     return;
 }
-$amenities =pg_fetch_all($result_3,PGSQL_ASSOC);
+$amenities = mysqli_fetch_all($result_3, MYSQLI_ASSOC);
 
 
 $sql_4 = "SELECT * FROM interested_users_properties WHERE property_id = $property_id";
-$result_4 =pg_query($db, $sql_4);
+$result_4 = mysqli_query($conn, $sql_4);
 if (!$result_4) {
     echo "Something went wrong!";
     return;
 }
-$interested_users =pg_fetch_all($result_4,PGSQL_ASSOC);
-$interested_users_count =pg_num_rows($result_4);
+$interested_users = mysqli_fetch_all($result_4, MYSQLI_ASSOC);
+$interested_users_count = mysqli_num_rows($result_4);
 ?>
 
 <!DOCTYPE html>
@@ -193,9 +193,7 @@ $interested_users_count =pg_num_rows($result_4);
                 <div class="rent-unit">per month</div>
             </div>
             <div class="button-container col-6">
-                <input type="button" class="btn btn-primary third"  value="BOOK NOW" id="myButton1"></input> 
-                <!-- <div class="btn btn-primary hidden">Booked </div> -->
-
+                <a href="#" class="btn btn-primary">Book Now</a>
             </div>
         </div>
     </div>
@@ -423,7 +421,6 @@ $interested_users_count =pg_num_rows($result_4);
     ?>
 
     <script type="text/javascript" src="js/property_detail.js"></script>
-    <script src="js/book.js"></script>
 </body>
 
 </html>

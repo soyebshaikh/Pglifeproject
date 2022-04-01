@@ -9,12 +9,12 @@ if (!isset($_SESSION["user_id"])) {
 $user_id = $_SESSION['user_id'];
 
 $sql_1 = "SELECT * FROM users WHERE id = $user_id";
-$result_1 = pg_query($db, $sql_1);
+$result_1 = mysqli_query($conn, $sql_1);
 if (!$result_1) {
     echo "Something went wrong!";
     return;
 }
-$user = pg_fetch_assoc($result_1);
+$user = mysqli_fetch_assoc($result_1);
 if (!$user) {
     echo "Something went wrong!";
     return;
@@ -24,12 +24,12 @@ $sql_2 = "SELECT *
             FROM interested_users_properties iup
             INNER JOIN properties p ON iup.property_id = p.id
             WHERE iup.user_id = $user_id";
-$result_2 = pg_query($db, $sql_2);
+$result_2 = mysqli_query($conn, $sql_2);
 if (!$result_2) {
     echo "Something went wrong!";
     return;
 }
-$interested_properties = pg_fetch_all($result_2, PGSQL_ASSOC);
+$interested_properties = mysqli_fetch_all($result_2, MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>

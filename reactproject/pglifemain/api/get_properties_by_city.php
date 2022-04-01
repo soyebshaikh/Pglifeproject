@@ -10,12 +10,12 @@ $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : NULL;
 $city_name = $_GET["city"];
 
 $sql_1 = "SELECT * FROM cities WHERE name = '$city_name'";
-$result_1 = pg_query($db, $sql_1);
+$result_1 = mysqli_query($conn, $sql_1);
 if (!$result_1) {
     echo "Something went wrong!";
     return;
 }
-$city = pg_fetch_assoc($result_1);
+$city = mysqli_fetch_assoc($result_1);
 if (!$city) {
     echo "Sorry! We do not have any PG listed in this city.";
     return;
@@ -23,24 +23,24 @@ if (!$city) {
 $city_id = $city['id'];
 
 $sql_2 = "SELECT * FROM properties WHERE city_id = $city_id";
-$result_2 = pg_query($db, $sql_2);
+$result_2 = mysqli_query($conn, $sql_2);
 if (!$result_2) {
     echo "Something went wrong!";
     return;
 }
-$properties = pg_fetch_all($result_2, PGSQL_ASSOC);
+$properties = mysqli_fetch_all($result_2, MYSQLI_ASSOC);
 
 
 $sql_3 = "SELECT * 
             FROM interested_users_properties iup
             INNER JOIN properties p ON iup.property_id = p.id
             WHERE p.city_id = $city_id";
-$result_3 = pg_query($db, $sql_3);
+$result_3 = mysqli_query($conn, $sql_3);
 if (!$result_3) {
     echo "Something went wrong!";
     return;
 }
-$interested_users_properties = pg_fetch_all($result_3, PGSQL_ASSOC);
+$interested_users_properties = mysqli_fetch_all($result_3, MYSQLI_ASSOC);
 
 
 $new_properties = array();
